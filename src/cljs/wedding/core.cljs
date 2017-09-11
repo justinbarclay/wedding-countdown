@@ -11,10 +11,6 @@
 
 (defonce remaining (atom (- (.now js/Date) (.getTime date))))
 
-(defn get-time
-  [seconds]
-  (.setSeconds (js/Date. nil) seconds))
-
 (defn extract-days [time]
   "Returns an amount of days based on seconds"
   (Math/floor (/ (/ (/ time 60) 60) 24)))
@@ -47,9 +43,10 @@
 ;; Views
 
 (defn home-page []
-  [:div [:h1 "No, but check back in"]
-   [:h1.example-clock
-    {:style {:color @time-color :font-size "50px"}}
+  [:div
+   [:h1 "Are Ariel and Justin married?"]
+   [:h2 "No, but check back in:"]
+   [:h2.countdown
     (format-clock (/ @remaining 1000))]])
 
 ;; -------------------------
