@@ -46,15 +46,36 @@
 
 ;; -------------------------
 ;; Views
-
-(defn home-page []
+(defn before-wedding []
   [:div
-   [:h1 "Are Ariel and Justin married?"]
    [:h2 "No, but check back in:"]
    [:h2.countdown
     (format-clock (/ @remaining 1000) @too-many)]
    [:button {:on-click #(reset! too-many (not @too-many))}
     (too-many-or-not @too-many)]])
+
+(defn after-wedding []
+  [:h1 "Yes"])
+
+(defn wedding-day []
+  [:h1 "Yay"])
+
+(defn before-after-or-during-wedding [date]
+  (cond (and (= (.getMonth date) (.getMonth (js/Date.)))
+             (= (.getDate date) (.getDate (js/Date.))))
+        (wedding-day)
+        (or (> (.getMonth date) (.getMonth (js/Date.)))
+            (and (= (.getMonth date) (.getMonth (js/Date.)))
+                 (> (.getDate date) (.getDate (js/Date.)))))
+        (before-wedding)
+        true (after-wedding)))
+
+
+
+(defn home-page []
+  [:div
+   [:h1 "Are Ariel and Justin married?"]
+   (before-after-or-during-wedding date)])
 
 ;; -------------------------
 ;; Routes
