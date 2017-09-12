@@ -8,6 +8,7 @@
 (def date (js/Date. "October 7 2017"))
 
 (defonce time-color (atom "#000"))
+(defonce too-many (atom nil))
 
 (defonce remaining (atom (- (.now js/Date) (.getTime date))))
 
@@ -26,10 +27,11 @@
 
 
 (defn format-clock [time]
-  (str (extract-days time) " DAYS "
-       (extract-hours time) " HRS "
-       (extract-minutes time) " MINS "
-       (extract-seconds time) " SECS"))
+  (if @too-many (str (extract-days time) "DAYS... ISH")
+    (str (extract-days time) " DAYS "
+         (extract-hours time) " HRS "
+         (extract-minutes time) " MINS "
+         (extract-seconds time) " SECS")))
 
 (defn calculate-remaining [current]
   (let [today (- (.getTime date) current)]
@@ -47,7 +49,9 @@
    [:h1 "Are Ariel and Justin married?"]
    [:h2 "No, but check back in:"]
    [:h2.countdown
-    (format-clock (/ @remaining 1000))]])
+    (format-clock (/ @remaining 1000))]
+   [:button {:on-click #(reset! too-many (not @too-many))}
+    "Too many numbers!"]])
 
 ;; -------------------------
 ;; Routes
