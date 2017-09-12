@@ -29,8 +29,8 @@
   (if too-many? (str "Not enough numbers!")
       (str "Too many numbers!")))
 
-(defn format-clock [time]
-  (if @too-many (str (extract-days time) " DAYS... ISH")
+(defn format-clock [time too-many?]
+  (if too-many? (str (extract-days time) " DAYS... ISH")
     (str (extract-days time) " DAYS "
          (extract-hours time) " HRS "
          (extract-minutes time) " MINS "
@@ -52,7 +52,7 @@
    [:h1 "Are Ariel and Justin married?"]
    [:h2 "No, but check back in:"]
    [:h2.countdown
-    (format-clock (/ @remaining 1000))]
+    (format-clock (/ @remaining 1000) @too-many)]
    [:button {:on-click #(reset! too-many (not @too-many))}
     (too-many-or-not @too-many)]])
 
