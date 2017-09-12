@@ -25,9 +25,12 @@
 (defn extract-seconds [time]
   (Math/floor (mod time 60)))
 
+(defn too-many-or-not [too-many?]
+  (if too-many? (str "Not enough numbers!")
+      (str "Too many numbers!")))
 
 (defn format-clock [time]
-  (if @too-many (str (extract-days time) "DAYS... ISH")
+  (if @too-many (str (extract-days time) " DAYS... ISH")
     (str (extract-days time) " DAYS "
          (extract-hours time) " HRS "
          (extract-minutes time) " MINS "
@@ -51,7 +54,7 @@
    [:h2.countdown
     (format-clock (/ @remaining 1000))]
    [:button {:on-click #(reset! too-many (not @too-many))}
-    "Too many numbers!"]])
+    (too-many-or-not @too-many)]])
 
 ;; -------------------------
 ;; Routes
