@@ -5,7 +5,7 @@
 
 ;; -------------------------
 ;; State
-(def date (js/Date. "2017-10-08T06:00:00-04:00"))
+(def date (js/Date. "2017-10-08T18:00:00-04:00"))
 
 (defonce time-color (atom "#000"))
 (defonce too-many (atom nil))
