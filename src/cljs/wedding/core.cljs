@@ -60,17 +60,17 @@
 (defn wedding-day []
   [:h1 "Yay"])
 
+;; Should just do unix time
 (defn before-after-or-during-wedding [date]
   (cond (and (= (.getMonth date) (.getMonth (js/Date.)))
-             (= (.getDate date) (.getDate (js/Date.))))
+             (= (.getDate date) (.getDate (js/Date.)))
+             (= (.getYear date) (.getYear (js/Date.))))
         (wedding-day)
-        (or (> (.getMonth date) (.getMonth (js/Date.)))
-            (and (= (.getMonth date) (.getMonth (js/Date.)))
-                 (> (.getDate date) (.getDate (js/Date.)))))
+
+        (< (.getTime date) (.getDate (js/Date.)))
         (before-wedding)
+
         true (after-wedding)))
-
-
 
 (defn home-page []
   [:div
